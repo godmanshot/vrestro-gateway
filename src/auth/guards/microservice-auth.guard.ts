@@ -17,11 +17,12 @@ export class MicroserviceAuthGuard implements CanActivate {
   async canActivate(
     context: ExecutionContext,
   ) {
+    const request = context.switchToHttp().getRequest();
 
-    let token = context.switchToHttp().getRequest<Request>().query.token;
+    let token = request.query.token;
 
     if(token === undefined || token === '') {
-      token = (context.switchToHttp().getRequest<Request>().header('Authorization') ?? '').replace('Bearer ', '');
+      token = (request.header('Authorization') ?? '').replace('Bearer ', '');
 
       if(token === undefined || token === '') {
         throw new UnauthorizedException("Unauthorized");
@@ -34,7 +35,7 @@ export class MicroserviceAuthGuard implements CanActivate {
       throw new UnauthorizedException("Unauthorized");
     }
     
-    context.switchToHttp().getRequest().user = authResponse;
+    request.user = authResponse;
 
     const need_email_verification = this.reflector.getAllAndOverride<boolean>('email-verification', [
       context.getHandler(),
@@ -50,5 +51,3 @@ export class MicroserviceAuthGuard implements CanActivate {
 
   }
 }
-
-export const WithoutEmailVerification = () => SetMetadata('email-verification', false);

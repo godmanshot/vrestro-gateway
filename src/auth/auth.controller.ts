@@ -1,13 +1,14 @@
 import { BadRequestException, Controller, Get, Inject, Query, Redirect, UseGuards } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { MicroUser } from 'src/auth/decorators/micro-user.decorator';
-import { MicroserviceAuthGuard, WithoutEmailVerification } from 'src/auth/guards/microservice-auth.guard';
+import { MicroserviceAuthGuard } from 'src/auth/guards/microservice-auth.guard';
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
 import { UpdateDto } from './dto/update.dto';
 import { SendVerifyEmailDto } from './dto/send-verify-email.dto';
 import { EmailVerificationDto } from './dto/email-verification.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { WithoutEmailVerification } from './decorators/without-email-verification.decorator';
 
 @ApiTags('auth')
 @Controller('auth')
