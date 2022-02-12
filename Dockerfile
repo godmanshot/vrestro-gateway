@@ -12,7 +12,7 @@ RUN npm run build
 
 
 
-FROM node:14-alpine As prod
+FROM node:14-alpine As production
 
 EXPOSE 3000
 
