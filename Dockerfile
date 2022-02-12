@@ -10,6 +10,8 @@ COPY . .
 
 RUN npm run build
 
+CMD npm run start:dev
+
 
 
 FROM node:14-alpine As production
@@ -26,4 +28,4 @@ COPY . .
 
 COPY --from=development /app/dist ./dist
 
-CMD ["node", "dist/main"]
+CMD node dist/main
